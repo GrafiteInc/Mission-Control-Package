@@ -1,0 +1,23 @@
+#!/usr/bin/env php
+<?php
+
+if (file_exists(__DIR__.'/vendor/autoload.php')) {
+    require __DIR__.'/vendor/autoload.php';
+} else {
+    require __DIR__.'/../vendor/autoload.php';
+}
+
+if (!isset($argv[1])) {
+    exit("You're missing a token");
+}
+
+// Check to see if we have an access.log we can parse
+if (false) {
+    // run the bash command
+}
+
+$token = $argv[1];
+
+$xray = new \Grafite\MissionControl\Atlas($token);
+
+$xray->analyzePerformance();
