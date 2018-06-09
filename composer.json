@@ -1,0 +1,33 @@
+{
+    "name": "grafite/missioncontrol",
+    "description": "The reporting package for Grafite Mission Control",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Matt Lantz",
+            "email": "matt@grafite.ca"
+        }
+    ],
+    "require": {
+        "php": ">=5.6.4",
+        "mashape/unirest-php": "^3.0"
+    },
+    "require-dev": {
+        "mockery/mockery": "^0.9.4",
+        "orchestra/testbench": "^3.3"
+    },
+    "bin": [
+        "bin/telescope"
+    ],
+    "autoload": {
+        "psr-4": {
+            "Grafite\\MissionControl\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests/TestCase.php"
+        ]
+    },
+    "minimum-stability": "stable"
+}
