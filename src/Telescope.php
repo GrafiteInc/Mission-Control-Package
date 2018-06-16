@@ -76,7 +76,7 @@ class Telescope
         $requestDetails = [
             'type' => 'exception',
             'data' => json_encode([
-                'exception_content' => $exception->getMessage(),
+                'exception_content' => $exception->getMessage() ?? 'No message',
                 'exception_trace' => $exception->getTrace(),
                 'exception_file' => $exception->getFile(),
                 'exception_line' => $exception->getLine(),

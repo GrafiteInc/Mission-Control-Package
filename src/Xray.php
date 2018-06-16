@@ -2,6 +2,7 @@
 
 namespace Grafite\MissionControl;
 
+use Grafite\MissionControl\Services\PerformanceAnalyzer;
 use Unirest\Request as UniRequest;
 
 class Xray
@@ -16,6 +17,7 @@ class Xray
             $this->token = $token;
         }
 
+        $this->performanceAnalyzer = new PerformanceAnalyzer;
         $this->missionControlUrl = 'http://missioncontrol.test/api/xray';
     }
 
@@ -49,9 +51,9 @@ class Xray
     public function getPerformance()
     {
         return [
-            'memory' => 9,
-            'storage' => 99,
-            'cpu' => 0.3,
+            'memory' => $this->performanceAnalyzer->getMemory(),
+            'storage' => $this->performanceAnalyzer->getStorage(),
+            'cpu' => $this->performanceAnalyzer->getCpu(),
         ];
     }
 }
