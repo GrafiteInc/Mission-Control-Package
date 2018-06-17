@@ -6,9 +6,15 @@ class PerformanceAnalyzer
 {
     public function getCpu()
     {
-        $averages = sys_getloadavg();
+        $stats1 = $this->getCoreInformation();
+        sleep(1);
+        $stats2 = $this->getCoreInformation();
 
-        return $averages[0];
+        $cpu = $this->getCpuPercentages($stats1, $stats2);
+
+        $cpuState = $cpu['cpu0']['idle'] - 100;
+
+        return $cpuState;
     }
 
     public function getMemory()
@@ -30,5 +36,50 @@ class PerformanceAnalyzer
     public function getStorage()
     {
         return round((disk_free_space('/') / disk_total_space('/')) * 100);
+    }
+
+    private function getCoreInformation()
+    {
+        $data = file('/proc/stat');
+        $cores = [];
+        foreach ($data as $line) {
+            if (preg_match('/^cpu[0-9]/', $line)) {
+                $info = explode(' ', $line);
+                $cores[] = array(
+                    'user' => $info[1],
+                    'nice' => $info[2],
+                    'sys' => $info[3],
+                    'idle' => $info[4]
+                );
+            }
+        }
+        return $cores;
+    }
+
+    private function getCpuPercentages($stat1, $stat2)
+    {
+        if (count($stat1) !== count($stat2)) {
+            return;
+        }
+
+        $cpus = [];
+
+        for ($i = 0, $l = count($stat1); $i < $l; $i++) {
+            $dif = [];
+            $dif['user'] = $stat2[$i]['user'] - $stat1[$i]['user'];
+            $dif['nice'] = $stat2[$i]['nice'] - $stat1[$i]['nice'];
+            $dif['sys'] = $stat2[$i]['sys'] - $stat1[$i]['sys'];
+            $dif['idle'] = $stat2[$i]['idle'] - $stat1[$i]['idle'];
+            $total = array_sum($dif);
+            $cpu = [];
+
+            foreach ($dif as $x => $y) {
+                $cpu[$x] = round($y / $total * 100, 1);
+            }
+
+            $cpus['cpu' . $i] = $cpu;
+        }
+
+        return $cpus;
     }
 }
