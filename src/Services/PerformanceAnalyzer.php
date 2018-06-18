@@ -12,7 +12,11 @@ class PerformanceAnalyzer
 
         $cpu = $this->getCpuPercentages($stats1, $stats2);
 
-        $cpuState = $cpu['cpu0']['idle'] - 100;
+        $cpuState = $cpu['cpu0']['user'] + $cpu['cpu0']['nice'] + $cpu['cpu0']['sys'];
+
+        if ($cpuState < 0) {
+            return 0;
+        }
 
         return $cpuState;
     }
@@ -45,12 +49,12 @@ class PerformanceAnalyzer
         foreach ($data as $line) {
             if (preg_match('/^cpu[0-9]/', $line)) {
                 $info = explode(' ', $line);
-                $cores[] = array(
+                $cores[] = [
                     'user' => $info[1],
                     'nice' => $info[2],
                     'sys' => $info[3],
-                    'idle' => $info[4]
-                );
+                    'idle' => $info[4],
+                ];
             }
         }
         return $cores;
