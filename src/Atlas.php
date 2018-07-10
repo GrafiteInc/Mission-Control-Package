@@ -16,6 +16,7 @@ class Atlas
             $this->token = $token;
         }
 
+        $this->service = new \Grafite\MissionControl\Services\TrafficAnalyzer;
         $this->missionControlUrl = 'http://missioncontrol.test/api/atlas';
     }
 
@@ -26,13 +27,13 @@ class Atlas
      *
      * @return bool
      */
-    public function analyzePerformance()
+    public function sendTrafficReport($log, $format)
     {
         $headers = [
             'token' => $this->token,
         ];
 
-        $query = $this->getTraffic();
+        $query = $this->getTraffic($log, $format);
 
         $response = UniRequest::post($this->missionControlUrl, $headers, $query);
 
@@ -46,16 +47,8 @@ class Atlas
      *
      * @return array
      */
-    public function getTraffic()
+    public function getTraffic($log, $format)
     {
-        //
-
-
-
-        return [
-            'memory' => 9,
-            'storage' => 99,
-            'cpu' => 0.3,
-        ];
+        return $this->service->analyze($log, $format);
     }
 }

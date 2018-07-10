@@ -34,6 +34,10 @@ class PerformanceAnalyzer
 
         $memory_usage = $mem[2] / $mem[1] * 100;
 
+        if ($memory_usage == 'NAN') {
+            $memory_usage = 0;
+        }
+
         return round($memory_usage);
     }
 
@@ -42,7 +46,7 @@ class PerformanceAnalyzer
         return round((disk_free_space('/') / disk_total_space('/')) * 100);
     }
 
-    private function getCoreInformation()
+    public function getCoreInformation()
     {
         $data = file('/proc/stat');
         $cores = [];
@@ -60,7 +64,7 @@ class PerformanceAnalyzer
         return $cores;
     }
 
-    private function getCpuPercentages($stat1, $stat2)
+    public function getCpuPercentages($stat1, $stat2)
     {
         if (count($stat1) !== count($stat2)) {
             return;

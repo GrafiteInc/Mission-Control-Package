@@ -21,6 +21,18 @@ Then run the following to add LaraTest
 composer require omnipulse/reporter
 ```
 
+/home/vagrant/Code/_projects/Grafite/Telescope/bin/xray 3114c8e096f14fd8f28b9eb239fc6b16
+
+sudo su sed -i -e 's/access_log off;/access_log \/var\/log\/nginx\/builder.grafite.test-access.log;/g' /etc/nginx/sites-available/builder.grafite.test
+
+sudo su && sed -i -e 's/access_log off;/access_log \/var\/log\/nginx\/builder.grafite.test-access.log;/g' /etc/nginx/sites-available/builder.grafite.test
+
+```
+*/5 * * * * /home/vagrant/Code/_projects/Grafite/Telescope/bin/xray 3114c8e096f14fd8f28b9eb239fc6b16
+```
+
+
+
 ### Token
 
 Set up your app/ website on omnipulse.io and get your token. Then in your app in the `config/services.php` file add:

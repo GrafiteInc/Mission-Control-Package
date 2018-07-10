@@ -10,14 +10,17 @@
     ],
     "require": {
         "php": ">=5.6.4",
-        "mashape/unirest-php": "^3.0"
+        "mashape/unirest-php": "^3.0",
+        "kassner/log-parser": "^1.4",
+        "nesbot/carbon": "^1.32"
     },
     "require-dev": {
         "mockery/mockery": "^0.9.4",
         "orchestra/testbench": "^3.3"
     },
     "bin": [
-        "bin/telescope"
+        "bin/atlas",
+        "bin/xray"
     ],
     "autoload": {
         "psr-4": {

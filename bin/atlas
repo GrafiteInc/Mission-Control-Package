@@ -12,12 +12,19 @@ if (!isset($argv[1])) {
 }
 
 // Check to see if we have an access.log we can parse
-if (false) {
-    // run the bash command
+if (!file_exists($argv[2])) {
+    echo 'We cannot find file file: '.$argv[2]."\n";
+    exit;
 }
 
 $token = $argv[1];
+$format = null;
 
-$xray = new \Grafite\MissionControl\Atlas($token);
+$atlas = new \Grafite\MissionControl\Atlas($token);
 
-$xray->analyzePerformance();
+// Check if this has a custom format (apache)
+if (isset($argv[3])) {
+    $format = $argv[3];
+}
+
+$atlas->sendTrafficReport($argv[2], $format);
