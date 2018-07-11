@@ -44,7 +44,10 @@ class TrafficAnalyzer
         $lines = file($this->fileName, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
         foreach ($lines as $line) {
-            $collection[] = $this->parser->parse($line);
+            $parsed = $this->parser->parse($line);
+            if ($this->validateLine($parsed)) {
+                $collection[] = $parsed;
+            }
         }
 
         $logs = collect($collection);
@@ -67,9 +70,10 @@ class TrafficAnalyzer
         $stats = [
             'hits' => $collection->count(),
             'total_data_sent' => $sentBytes->sum(),
-            'most_common_method' => $this->sortByField('requestMethod', $collection),
-            'most_common_url' => $this->sortByField('URL', $collection),
-            'most_common_user_agent' => $this->sortByField('HeaderUserAgent', $collection),
+            // 'traffic_locations' => [],
+            // 'most_common_method' => $this->sortByField('requestMethod', $collection),
+            // 'most_common_url' => $this->sortByField('URL', $collection),
+            // 'most_common_user_agent' => $this->sortByField('HeaderUserAgent', $collection),
         ];
 
         return $stats;
@@ -92,5 +96,37 @@ class TrafficAnalyzer
         return $collection->groupBy($field)->sortByDesc(function ($logs) {
             return count($logs);
         })->first()->pluck($field)->first();
+    }
+
+    /**
+     * Line object from logs
+     *
+     * @param  object $line
+     *
+     * @return bool
+     */
+    public function validateLine($line)
+    {
+        $invalidExtensions = [
+            '.jpg',
+            '.js',
+            '.css',
+            '.sass',
+            '.scss',
+            '.png',
+            '.svg',
+            '.ico',
+            '.jpeg',
+            '.gif',
+            '.mp4',
+        ];
+
+        foreach ($invalidExtensions as $needle) {
+            if (stristr($line->URL, $needle)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
