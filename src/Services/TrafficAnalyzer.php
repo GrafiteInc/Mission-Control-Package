@@ -44,10 +44,7 @@ class TrafficAnalyzer
         $lines = file($this->fileName, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
         foreach ($lines as $line) {
-            $parsed = $this->parser->parse($line);
-            if ($this->validateLine($parsed)) {
-                $collection[] = $parsed;
-            }
+            $collection[] = $this->parser->parse($line);
         }
 
         $logs = collect($collection);
@@ -68,9 +65,12 @@ class TrafficAnalyzer
         $sentBytes = $collection->pluck('sentBytes');
 
         $stats = [
-            'hits' => $collection->count(),
+            'hits' => $collection->filter(function ($line) {
+                return $this->validateLine($line);
+            })->count(),
             'total_data_sent' => $sentBytes->sum(),
-            // 'traffic_locations' => [],
+
+
             // 'most_common_method' => $this->sortByField('requestMethod', $collection),
             // 'most_common_url' => $this->sortByField('URL', $collection),
             // 'most_common_user_agent' => $this->sortByField('HeaderUserAgent', $collection),
