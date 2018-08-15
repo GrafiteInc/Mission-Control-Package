@@ -69,11 +69,9 @@ class TrafficAnalyzer
                 return $this->validateLine($line);
             })->count(),
             'total_data_sent' => $sentBytes->sum(),
-
-
-            // 'most_common_method' => $this->sortByField('requestMethod', $collection),
-            // 'most_common_url' => $this->sortByField('URL', $collection),
-            // 'most_common_user_agent' => $this->sortByField('HeaderUserAgent', $collection),
+            'most_common_method' => $this->sortByField('requestMethod', $collection),
+            'most_common_url' => $this->sortByField('URL', $collection),
+            'most_common_user_agent' => $this->sortByField('HeaderUserAgent', $collection),
         ];
 
         return $stats;

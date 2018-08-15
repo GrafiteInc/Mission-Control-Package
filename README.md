@@ -68,7 +68,8 @@ apache: %h %l %u %t "%r" %>s %b
 This simple command can enable your access logs after you restart Ngnix.
 
 ```
-sudo su && sed -i -e 's/access_log off;/access_log \/var\/log\/nginx\/{domain}-access.log;/g' /etc/nginx/sites-available/{domain}
+sudo su
+sed -i -e 's/access_log off;/access_log \/var\/log\/nginx\/{domain}-access.log;/g' /etc/nginx/sites-available/{domain}
 ```
 
 ## License

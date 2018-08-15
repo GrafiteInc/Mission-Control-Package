@@ -16,7 +16,7 @@ class Telescope
             $this->token = $token;
         }
 
-        $this->missionControlUrl = 'http://missioncontrol.test/api/telescope';
+        $this->missionControlUrl = 'https://getmissioncontrol.io/api/telescope';
     }
 
     /**

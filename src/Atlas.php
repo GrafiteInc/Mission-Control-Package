@@ -17,7 +17,7 @@ class Atlas
         }
 
         $this->service = new \Grafite\MissionControl\Services\TrafficAnalyzer;
-        $this->missionControlUrl = 'http://missioncontrol.test/api/atlas';
+        $this->missionControlUrl = 'https://getmissioncontrol.io/api/atlas';
     }
 
     /**

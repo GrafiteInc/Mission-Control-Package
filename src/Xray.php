@@ -18,7 +18,7 @@ class Xray
         }
 
         $this->performanceAnalyzer = new PerformanceAnalyzer;
-        $this->missionControlUrl = 'http://missioncontrol.test/api/xray';
+        $this->missionControlUrl = 'https://getmissioncontrol.io/api/xray';
     }
 
     /**
