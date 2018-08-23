@@ -4,11 +4,11 @@ namespace Grafite\MissionControl\Analyzers;
 
 class PerformanceAnalyzer
 {
-    public function getCpu()
+    public function getCpu($coreInfo = null)
     {
-        $stats1 = $this->getCoreInformation();
+        $stats1 = $this->getCoreInformation($coreInfo);
         sleep(1);
-        $stats2 = $this->getCoreInformation();
+        $stats2 = $this->getCoreInformation($coreInfo);
 
         $cpu = $this->getCpuPercentages($stats1, $stats2);
 
@@ -21,10 +21,13 @@ class PerformanceAnalyzer
         return $cpuState;
     }
 
-    public function getMemory()
+    public function getMemory($data = null)
     {
-        $free = shell_exec('free');
-        $free = (string) trim($free);
+        if (is_null($data)) {
+            $data = shell_exec('free');
+        }
+
+        $free = (string) trim($data);
 
         $free_arr = explode("\n", $free);
 
@@ -41,14 +44,26 @@ class PerformanceAnalyzer
         return round($memory_usage);
     }
 
-    public function getStorage()
+    public function getStorage($free, $total)
     {
-        return round((disk_free_space('/') / disk_total_space('/')) * 100);
+        if (is_null($free)) {
+            $free = disk_free_space('/');
+        }
+
+        if (is_null($total)) {
+            $total = disk_total_space('/');
+        }
+
+        return round(($free / $total) * 100);
     }
 
-    public function getCoreInformation()
+    public function getCoreInformation($coreInfo)
     {
-        $data = file('/proc/stat');
+        if (is_null($coreInfo)) {
+            $coreInfo = file('/proc/stat');
+        }
+
+        $data = $coreInfo;
         $cores = [];
         foreach ($data as $line) {
             if (preg_match('/^cpu[0-9]/', $line)) {
@@ -82,7 +97,11 @@ class PerformanceAnalyzer
             $cpu = [];
 
             foreach ($dif as $x => $y) {
-                $cpu[$x] = round($y / $total * 100, 1);
+                $cpu[$x] = 0;
+
+                if ($y !== 0) {
+                    $cpu[$x] = round($y / $total * 100, 1);
+                }
             }
 
             $cpus['cpu' . $i] = $cpu;

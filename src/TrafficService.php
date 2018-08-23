@@ -4,7 +4,6 @@ namespace Grafite\MissionControl;
 
 use Grafite\MissionControl\Analyzers\TrafficAnalyzer;
 use Grafite\MissionControl\BaseService;
-use Unirest\Request as UniRequest;
 
 class TrafficService extends BaseService
 {
@@ -35,11 +34,13 @@ class TrafficService extends BaseService
 
         $query = $this->getTraffic($log, $format);
 
-        $response = UniRequest::post($this->missionControlUrl, $headers, $query);
+        $response = $this->curl->post($this->missionControlUrl, $headers, $query);
 
         if ($response->code != 200) {
             error_log('Unable to message Mission Control, please confirm your token');
         }
+
+        return true;
     }
 
     /**

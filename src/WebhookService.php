@@ -2,9 +2,9 @@
 
 namespace Grafite\MissionControl;
 
-use Unirest\Request as UniRequest;
+use Grafite\MissionControl\BaseService;
 
-class WebhookService
+class WebhookService extends BaseService
 {
     public $webhook;
 
@@ -34,10 +34,12 @@ class WebhookService
             'flag' => $flag,
         ];
 
-        $response = UniRequest::post($this->webhook, $headers, $query);
+        $response = $this->curl->post($this->webhook, $headers, $query);
 
         if ($response->code != 200) {
             error_log('Unable to message Mission Control, please confirm your token');
         }
+
+        return true;
     }
 }

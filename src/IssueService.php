@@ -3,7 +3,6 @@
 namespace Grafite\MissionControl;
 
 use Grafite\MissionControl\BaseService;
-use Unirest\Request as UniRequest;
 
 class IssueService extends BaseService
 {
@@ -35,11 +34,13 @@ class IssueService extends BaseService
 
         $query = $this->processException($exception);
 
-        $response = UniRequest::post($this->missionControlUrl, $headers, $query);
+        $response = $this->curl->post($this->missionControlUrl, $headers, $query);
 
         if ($response->code != 200) {
             error_log('Unable to message Mission Control, please confirm your token');
         }
+
+        return true;
     }
 
     /**
@@ -58,11 +59,13 @@ class IssueService extends BaseService
 
         $query = $this->processLog($message, $flag);
 
-        $response = UniRequest::post($this->missionControlUrl, $headers, $query);
+        $response = $this->curl->post($this->missionControlUrl, $headers, $query);
 
         if ($response->code != 200) {
             error_log('Unable to message Mission Control, please confirm your token');
         }
+
+        return true;
     }
 
     /**

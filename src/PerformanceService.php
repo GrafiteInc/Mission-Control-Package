@@ -4,7 +4,6 @@ namespace Grafite\MissionControl;
 
 use Grafite\MissionControl\Analyzers\PerformanceAnalyzer;
 use Grafite\MissionControl\BaseService;
-use Unirest\Request as UniRequest;
 
 class PerformanceService extends BaseService
 {
@@ -37,11 +36,13 @@ class PerformanceService extends BaseService
 
         $query = $this->getPerformance();
 
-        $response = UniRequest::post($this->missionControlUrl, $headers, $query);
+        $response = $this->curl->post($this->missionControlUrl, $headers, $query);
 
         if ($response->code != 200) {
             error_log('Unable to message Mission Control, please confirm your token');
         }
+
+        return true;
     }
 
     /**
