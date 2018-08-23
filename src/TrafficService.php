@@ -2,13 +2,13 @@
 
 namespace Grafite\MissionControl;
 
+use Grafite\MissionControl\Analyzers\TrafficAnalyzer;
+use Grafite\MissionControl\BaseService;
 use Unirest\Request as UniRequest;
 
-class Atlas
+class TrafficService extends BaseService
 {
     public $token;
-
-    protected $missionControlUrl;
 
     public function __construct($token = null)
     {
@@ -16,8 +16,8 @@ class Atlas
             $this->token = $token;
         }
 
-        $this->service = new \Grafite\MissionControl\Services\TrafficAnalyzer;
-        $this->missionControlUrl = 'https://getmissioncontrol.io/api/atlas';
+        $this->service = new TrafficAnalyzer;
+        $this->missionControlUrl = $this->missionControlDomain('traffic');
     }
 
     /**
@@ -27,7 +27,7 @@ class Atlas
      *
      * @return bool
      */
-    public function sendTrafficReport($log, $format)
+    public function sendTraffic($log, $format)
     {
         $headers = [
             'token' => $this->token,
@@ -38,7 +38,7 @@ class Atlas
         $response = UniRequest::post($this->missionControlUrl, $headers, $query);
 
         if ($response->code != 200) {
-            error_log('Unable to message Grafite Mission Control, please confirm your token');
+            error_log('Unable to message Mission Control, please confirm your token');
         }
     }
 

@@ -2,9 +2,10 @@
 
 namespace Grafite\MissionControl;
 
+use Grafite\MissionControl\BaseService;
 use Unirest\Request as UniRequest;
 
-class Telescope
+class IssueService extends BaseService
 {
     public $token;
 
@@ -16,7 +17,7 @@ class Telescope
             $this->token = $token;
         }
 
-        $this->missionControlUrl = 'https://getmissioncontrol.io/api/telescope';
+        $this->missionControlUrl = $this->missionControlDomain('issue');
     }
 
     /**
@@ -37,7 +38,7 @@ class Telescope
         $response = UniRequest::post($this->missionControlUrl, $headers, $query);
 
         if ($response->code != 200) {
-            error_log('Unable to message Grafite Mission Control, please confirm your token');
+            error_log('Unable to message Mission Control, please confirm your token');
         }
     }
 
@@ -60,7 +61,7 @@ class Telescope
         $response = UniRequest::post($this->missionControlUrl, $headers, $query);
 
         if ($response->code != 200) {
-            error_log('Unable to message Grafite Mission Control, please confirm your token');
+            error_log('Unable to message Mission Control, please confirm your token');
         }
     }
 

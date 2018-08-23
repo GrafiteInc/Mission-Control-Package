@@ -14,56 +14,66 @@ Grafite's Mission Control is an elegant Application Performance Management syste
 composer require grafite/missioncontrol
 ```
 
-### Telescope
+### IssueService
 
-Telescope lets you peak into your exceptions or any flagged messages you'd like to track. You can do so using the following methods:
+IssueService lets you peak into your exceptions or any flagged messages you'd like to track. You can do so using the following methods:
 
 ```
-use Grafite/MissionControl/Telescope;
+use Grafite/MissionControl/IssueService;
 
 try {
     // do some code
 } catch (Exception $e) {
-    $telescope = new Telescope('{API Token}');
-    $telescope->exception($e);
+    $issueService = new IssueService('{API Token}');
+    $issueService->exception($e);
 }
 ```
 
 Or if you just want to flag an potential issue or concern in your applicaiton:
 
 ```
-use Grafite/MissionControl/Telescope;
+use Grafite/MissionControl/IssueService;
 
-$telescope = new Telescope('{API Token}');
-$telescope->log('Anything you want to say goes here', 'flag');
+$issueService = new IssueService('{API Token}');
+$issueService->log('Anything you want to say goes here', 'flag');
 ```
 
 ##### Flags
 
 Flags can be any terminology you want, to help sort through your issues.
 
-### Xray
+### WebhookService
 
-Add this cron job to enable Xray which scans your system to report back to mission control the state of your server.
+You can easily tie the webhooks into your application with this package using class and method:
 
 ```
-*/5 * * * * /{app-path}/vendor/bin/xray {API token}
+use Grafite/MissionControl/WebhookService;
+
+(new WebhookService('{your-projects-webhook}'))->send('This is a title', 'This is a custom message', 'info');
 ```
 
-### Atlas
+### PerformanceService
+
+Add this cron job to enable PerformanceService which scans your system to report back to mission control the state of your server.
+
+```
+*/5 * * * * /{app-path}/vendor/bin/performance {API token}
+```
+
+### TrafficService
 
 Want to track some basic inforation about your web traffic? You'll need to make sure you've enabled `access.log` tracking, then add this cron job to your server.
 
 ```
-*/5 * * * * /{app-path}/vendor/bin/atlas {API token} {path-to-access.log} {format --optional (nginx default)}
+*/5 * * * * /{app-path}/vendor/bin/traffic {API token} {path-to-access.log} {format --optional (nginx default)}
 ```
 
-#### Atlas formats
+#### TrafficService formats
 
 nginx: %a %l %u %t "%m %U %H" %>s %O "%{Referer}i" \"%{User-Agent}i"
 apache: %h %l %u %t "%r" %>s %b
 
-##### Quick tip for Forge users
+#### Quick tip for Forge users
 
 This simple command can enable your access logs after you restart Ngnix.
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Grafite\MissionControl\Services;
+namespace Grafite\MissionControl\Analyzers;
 
 class PerformanceAnalyzer
 {

@@ -2,10 +2,11 @@
 
 namespace Grafite\MissionControl;
 
-use Grafite\MissionControl\Services\PerformanceAnalyzer;
+use Grafite\MissionControl\Analyzers\PerformanceAnalyzer;
+use Grafite\MissionControl\BaseService;
 use Unirest\Request as UniRequest;
 
-class Xray
+class PerformanceService extends BaseService
 {
     public $token;
 
@@ -18,7 +19,7 @@ class Xray
         }
 
         $this->performanceAnalyzer = new PerformanceAnalyzer;
-        $this->missionControlUrl = 'https://getmissioncontrol.io/api/xray';
+        $this->missionControlUrl = $this->missionControlDomain('performance');
     }
 
     /**
@@ -28,7 +29,7 @@ class Xray
      *
      * @return bool
      */
-    public function analyzePerformance()
+    public function sendPerformance()
     {
         $headers = [
             'token' => $this->token,
@@ -39,7 +40,7 @@ class Xray
         $response = UniRequest::post($this->missionControlUrl, $headers, $query);
 
         if ($response->code != 200) {
-            error_log('Unable to message Grafite Mission Control, please confirm your token');
+            error_log('Unable to message Mission Control, please confirm your token');
         }
     }
 

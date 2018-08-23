@@ -20,11 +20,11 @@ if (!file_exists($argv[2])) {
 $token = $argv[1];
 $format = null;
 
-$atlas = new \Grafite\MissionControl\Atlas($token);
+$traffic = new \Grafite\MissionControl\TrafficService($token);
 
 // Check if this has a custom format (apache)
 if (isset($argv[3])) {
     $format = $argv[3];
 }
 
-$atlas->sendTrafficReport($argv[2], $format);
+$traffic->sendTraffic($argv[2], $format);
