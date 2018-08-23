@@ -1,5 +1,9 @@
 # Mission Control PHP Package
 
+[![Build Status](https://travis-ci.org/GrafiteInc/Mission-Control-Package.svg?branch=master)](https://travis-ci.org/GrafiteInc/Mission-Control-Package)
+[![Packagist](https://img.shields.io/packagist/dt/grafite/mission-control.svg)](https://packagist.org/packages/grafite/mission-control)
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://packagist.org/packages/grafite/mission-control-package)
+
 **Mission Control PHP Package** - Send data to Grafite's Mission Control system to stay in control of your applications.
 
 Grafite's Mission Control is an elegant Application Performance Management system. Forget being inundated with hundreds of charts and complex configurations for CMS websites, custom E-commerce platforms etc. Utilize the simple user interface, with specific data for high demand moments. Get notifications within minutes of your system being overloaded, or high levels of errors being triggered. Set it up in less than 5 minutes with your next deployment, and take back your weekends.

@@ -1,6 +1,6 @@
 {
-    "name": "grafite/missioncontrol",
-    "description": "The reporting package for Grafite Mission Control",
+    "name": "grafite/mission-control",
+    "description": "The PHP agnostic package for Mission Control (Grafite Inc)",
     "license": "MIT",
     "authors": [
         {
