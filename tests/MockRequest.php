@@ -9,13 +9,10 @@ class MockRequest
     public $query;
     public $code;
 
-    public function post($url, $headers, $query)
+    public static function post($url, $headers, $query)
     {
-        $this->url = $url;
-        $this->headers = $headers;
-        $this->query = $query;
-        $this->code = 200;
-
-        return $this;
+        return (object) [
+            'code' => 200,
+        ];
     }
 }

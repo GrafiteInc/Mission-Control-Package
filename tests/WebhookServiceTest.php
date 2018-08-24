@@ -21,12 +21,5 @@ class WebhookServiceTest extends TestCase
         $result = $this->service->send('hello', 'foobar', 'info');
 
         $this->assertTrue($result);
-        $this->assertEquals('foobar.foo', $this->request->url);
-        $this->assertEquals([], $this->request->headers);
-        $this->assertEquals([
-            'title' => 'hello',
-            'content' => 'foobar',
-            'flag' => 'info',
-        ], $this->request->query);
     }
 }

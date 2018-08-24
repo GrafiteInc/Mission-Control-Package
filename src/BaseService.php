@@ -2,7 +2,7 @@
 
 namespace Grafite\MissionControl;
 
-use Unirest\Request as UniRequest;
+use Unirest\Request;
 
 class BaseService
 {
@@ -10,7 +10,7 @@ class BaseService
 
     public function __construct()
     {
-        $this->curl = new UniRequest;
+        $this->curl = new Request();
     }
 
     public function setCurl($instance)

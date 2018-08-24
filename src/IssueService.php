@@ -8,10 +8,14 @@ class IssueService extends BaseService
 {
     public $token;
 
+    public $curl;
+
     protected $missionControlUrl;
 
     public function __construct($token = null)
     {
+        parent::__construct();
+
         if (!is_null($token)) {
             $this->token = $token;
         }
@@ -34,7 +38,7 @@ class IssueService extends BaseService
 
         $query = $this->processException($exception);
 
-        $response = $this->curl->post($this->missionControlUrl, $headers, $query);
+        $response = $this->curl::post($this->missionControlUrl, $headers, $query);
 
         if ($response->code != 200) {
             error_log('Unable to message Mission Control, please confirm your token');
@@ -59,7 +63,7 @@ class IssueService extends BaseService
 
         $query = $this->processLog($message, $flag);
 
-        $response = $this->curl->post($this->missionControlUrl, $headers, $query);
+        $response = $this->curl::post($this->missionControlUrl, $headers, $query);
 
         if ($response->code != 200) {
             error_log('Unable to message Mission Control, please confirm your token');

@@ -8,8 +8,12 @@ class WebhookService extends BaseService
 {
     public $webhook;
 
+    public $curl;
+
     public function __construct($webhook = null)
     {
+        parent::__construct();
+
         if (!is_null($webhook)) {
             $this->webhook = $webhook;
         }
@@ -34,10 +38,10 @@ class WebhookService extends BaseService
             'flag' => $flag,
         ];
 
-        $response = $this->curl->post($this->webhook, $headers, $query);
+        $response = $this->curl::post($this->webhook, $headers, $query);
 
         if ($response->code != 200) {
-            error_log('Unable to message Mission Control, please confirm your token');
+            error_log('Unable to message Mission Control, please confirm your webhook');
         }
 
         return true;
