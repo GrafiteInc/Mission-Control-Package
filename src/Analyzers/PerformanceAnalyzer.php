@@ -2,12 +2,14 @@
 
 namespace Grafite\MissionControl\Analyzers;
 
+use Exception;
+
 class PerformanceAnalyzer
 {
     public function getCpu($coreInfo = null)
     {
         $stats1 = $this->getCoreInformation($coreInfo);
-        sleep(1);
+        sleep(3);
         $stats2 = $this->getCoreInformation($coreInfo);
 
         $cpu = $this->getCpuPercentages($stats1, $stats2);
@@ -24,7 +26,11 @@ class PerformanceAnalyzer
     public function getMemory($data = null)
     {
         if (is_null($data)) {
-            $data = shell_exec('free');
+            $data = shell_exec('free 2>&1');
+        }
+
+        if (strstr($data, 'command not found')) {
+            throw new Exception("Unable to collect memory data, make sure you can run the command: 'free'", 1);
         }
 
         $free = (string) trim($data);
@@ -44,7 +50,7 @@ class PerformanceAnalyzer
         return round($memory_usage);
     }
 
-    public function getStorage($free, $total)
+    public function getStorage($free = null, $total = null)
     {
         if (is_null($free)) {
             $free = disk_free_space('/');

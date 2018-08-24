@@ -5,6 +5,7 @@ namespace Grafite\MissionControl;
 use Exception;
 use Grafite\MissionControl\Analyzers\PerformanceAnalyzer;
 use Grafite\MissionControl\BaseService;
+use Grafite\MissionControl\IssueService;
 
 class PerformanceService extends BaseService
 {
@@ -58,10 +59,15 @@ class PerformanceService extends BaseService
      */
     public function getPerformance()
     {
-        return [
-            'memory' => $this->performanceAnalyzer->getMemory(),
-            'storage' => $this->performanceAnalyzer->getStorage(),
-            'cpu' => $this->performanceAnalyzer->getCpu(),
-        ];
+        try {
+            return [
+                'memory' => $this->performanceAnalyzer->getMemory(),
+                'storage' => $this->performanceAnalyzer->getStorage(),
+                'cpu' => $this->performanceAnalyzer->getCpu(),
+            ];
+        } catch (Exception $e) {
+            $issue = new IssueService($this->token);
+            $issue->exception($e);
+        }
     }
 }
