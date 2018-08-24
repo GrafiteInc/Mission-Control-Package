@@ -2,6 +2,7 @@
 
 namespace Grafite\MissionControl;
 
+use Exception;
 use Grafite\MissionControl\BaseService;
 
 class WebhookService extends BaseService
@@ -14,9 +15,11 @@ class WebhookService extends BaseService
     {
         parent::__construct();
 
-        if (!is_null($webhook)) {
-            $this->webhook = $webhook;
+        if (is_null($webhook)) {
+            throw new Exception("Missing Webhook", 1);
         }
+
+        $this->webhook = $webhook;
     }
 
     /**
@@ -41,7 +44,7 @@ class WebhookService extends BaseService
         $response = $this->curl::post($this->webhook, $headers, $query);
 
         if ($response->code != 200) {
-            error_log('Unable to message Mission Control, please confirm your webhook');
+            $this->error('Unable to message Mission Control, please confirm your webhook');
         }
 
         return true;

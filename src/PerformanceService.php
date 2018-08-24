@@ -2,6 +2,7 @@
 
 namespace Grafite\MissionControl;
 
+use Exception;
 use Grafite\MissionControl\Analyzers\PerformanceAnalyzer;
 use Grafite\MissionControl\BaseService;
 
@@ -17,10 +18,11 @@ class PerformanceService extends BaseService
     {
         parent::__construct();
 
-        if (!is_null($token)) {
-            $this->token = $token;
+        if (is_null($token)) {
+            throw new Exception("Missing token", 1);
         }
 
+        $this->token = $token;
         $this->performanceAnalyzer = new PerformanceAnalyzer;
         $this->missionControlUrl = $this->missionControlDomain('performance');
     }
@@ -43,7 +45,7 @@ class PerformanceService extends BaseService
         $response = $this->curl::post($this->missionControlUrl, $headers, $query);
 
         if ($response->code != 200) {
-            error_log('Unable to message Mission Control, please confirm your token');
+            $this->error('Unable to message Mission Control, please confirm your token');
         }
 
         return true;

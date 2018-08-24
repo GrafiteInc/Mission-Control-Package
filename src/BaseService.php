@@ -22,4 +22,9 @@ class BaseService
     {
         return 'https://getmissioncontrol.io/api/'.$url;
     }
+
+    public function error($message)
+    {
+        return error_log($message);
+    }
 }

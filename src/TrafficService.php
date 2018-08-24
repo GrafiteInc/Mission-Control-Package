@@ -2,6 +2,7 @@
 
 namespace Grafite\MissionControl;
 
+use Exception;
 use Grafite\MissionControl\Analyzers\TrafficAnalyzer;
 use Grafite\MissionControl\BaseService;
 
@@ -15,10 +16,11 @@ class TrafficService extends BaseService
     {
         parent::__construct();
 
-        if (!is_null($token)) {
-            $this->token = $token;
+        if (is_null($token)) {
+            throw new Exception("Missing token", 1);
         }
 
+        $this->token = $token;
         $this->service = new TrafficAnalyzer;
         $this->missionControlUrl = $this->missionControlDomain('traffic');
     }
@@ -41,7 +43,7 @@ class TrafficService extends BaseService
         $response = $this->curl::post($this->missionControlUrl, $headers, $query);
 
         if ($response->code != 200) {
-            error_log('Unable to message Mission Control, please confirm your token');
+            $this->error('Unable to message Mission Control, please confirm your token');
         }
 
         return true;
