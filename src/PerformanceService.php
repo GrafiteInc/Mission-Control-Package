@@ -13,6 +13,10 @@ class PerformanceService extends BaseService
 
     public $curl;
 
+    public $performanceAnalyzer;
+
+    public $issueService;
+
     protected $missionControlUrl;
 
     public function __construct($token = null)
@@ -25,6 +29,7 @@ class PerformanceService extends BaseService
 
         $this->token = $token;
         $this->performanceAnalyzer = new PerformanceAnalyzer;
+        $this->issueService = new IssueService($this->token);
         $this->missionControlUrl = $this->missionControlDomain('performance');
     }
 
@@ -66,8 +71,7 @@ class PerformanceService extends BaseService
                 'cpu' => $this->performanceAnalyzer->getCpu(),
             ];
         } catch (Exception $e) {
-            $issue = new IssueService($this->token);
-            $issue->exception($e);
+            $this->issueService->exception($e);
         }
     }
 }

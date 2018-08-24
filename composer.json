@@ -22,8 +22,8 @@
         "mikey179/vfsStream": "^1.6"
     },
     "bin": [
-        "bin/atlas",
-        "bin/xray"
+        "bin/performance",
+        "bin/traffic"
     ],
     "autoload": {
         "psr-4": {
