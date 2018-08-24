@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v1.0.4] - 2018-08-24
+
+### Changed
+- Better practises for PerformanceAnalyzer
+
+### Fixed
+- Bin file naming
+
 ## [v1.0.3] - 2018-08-24
 
 ### Changed
