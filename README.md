@@ -15,7 +15,7 @@ Grafite's Mission Control is an elegant Application Performance Management syste
 ### Composer
 
 ```php
-composer require grafite/missioncontrol
+composer require grafite/mission-control
 ```
 
 ### IssueService
