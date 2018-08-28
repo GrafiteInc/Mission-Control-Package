@@ -63,15 +63,16 @@ class TrafficAnalyzer
     public function processLogStats($collection)
     {
         $sentBytes = $collection->pluck('sentBytes');
+        $validLogs = $collection->filter(function ($line) {
+            return $this->validateLine($line);
+        });
 
         $stats = [
-            'hits' => $collection->filter(function ($line) {
-                return $this->validateLine($line);
-            })->count(),
+            'hits' => $validLogs->count(),
             'total_data_sent' => $sentBytes->sum(),
-            'most_common_method' => $this->sortByField('requestMethod', $collection),
-            'most_common_url' => $this->sortByField('URL', $collection),
-            'most_common_user_agent' => $this->sortByField('HeaderUserAgent', $collection),
+            'most_common_method' => $this->sortByField('requestMethod', $validLogs),
+            'most_common_url' => $this->sortByField('URL', $validLogs),
+            'most_common_user_agent' => $this->sortByField('HeaderUserAgent', $validLogs),
         ];
 
         return $stats;
@@ -123,6 +124,10 @@ class TrafficAnalyzer
             if (stristr($line->URL, $needle)) {
                 return false;
             }
+        }
+
+        if ($line->HeaderUserAgent === 'MissionControlAgent') {
+            return false;
         }
 
         return true;
