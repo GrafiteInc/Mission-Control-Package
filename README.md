@@ -23,7 +23,7 @@ composer require grafite/mission-control
 IssueService lets you peak into your exceptions or any flagged messages you'd like to track. You can do so using the following methods:
 
 ```
-use Grafite/MissionControl/IssueService;
+use Grafite\MissionControl\IssueService;
 
 try {
     // do some code
@@ -36,7 +36,7 @@ try {
 Or if you just want to flag an potential issue or concern in your applicaiton:
 
 ```
-use Grafite/MissionControl/IssueService;
+use Grafite\MissionControl\IssueService;
 
 $issueService = new IssueService('{API Token}');
 $issueService->log('Anything you want to say goes here', 'flag');
@@ -51,7 +51,7 @@ Flags can be any terminology you want, to help sort through your issues.
 You can easily tie the webhooks into your application with this package using class and method:
 
 ```
-use Grafite/MissionControl/WebhookService;
+use Grafite\MissionControl\WebhookService;
 
 (new WebhookService('{your-projects-webhook}'))->send('This is a title', 'This is a custom message', 'info');
 ```
