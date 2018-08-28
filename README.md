@@ -86,6 +86,8 @@ sudo su
 sed -i -e 's/access_log off;/access_log \/var\/log\/nginx\/{domain}-access.log;/g' /etc/nginx/sites-available/{domain}
 ```
 
+Your log should then be `/var/log/nginx/{domain}-access.log`
+
 ## License
 Mission Control PHP Package is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
 
