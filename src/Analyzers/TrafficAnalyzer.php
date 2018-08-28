@@ -62,10 +62,11 @@ class TrafficAnalyzer
      */
     public function processLogStats($collection)
     {
-        $sentBytes = $collection->pluck('sentBytes');
         $validLogs = $collection->filter(function ($line) {
             return $this->validateLine($line);
         });
+
+        $sentBytes = $validLogs->pluck('sentBytes');
 
         $stats = [
             'hits' => $validLogs->count(),
