@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v1.0.7] - 2018-08-28
+
+### Fixed
+- Corrected issue with summing data sent to invalid requests
+
 ## [v1.0.6] - 2018-08-28
 
 ### Fixed
