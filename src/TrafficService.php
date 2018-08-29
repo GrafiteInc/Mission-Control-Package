@@ -16,10 +16,6 @@ class TrafficService extends BaseService
     {
         parent::__construct();
 
-        if (is_null($token)) {
-            throw new Exception("Missing token", 1);
-        }
-
         $this->token = $token;
         $this->service = new TrafficAnalyzer;
         $this->missionControlUrl = $this->missionControlDomain('traffic');
@@ -37,6 +33,10 @@ class TrafficService extends BaseService
         $headers = [
             'token' => $this->token,
         ];
+
+        if (is_null($this->token)) {
+            throw new Exception("Missing token", 1);
+        }
 
         $query = $this->getTraffic($log, $format);
 

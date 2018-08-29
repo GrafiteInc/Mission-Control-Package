@@ -15,10 +15,6 @@ class WebhookService extends BaseService
     {
         parent::__construct();
 
-        if (is_null($webhook)) {
-            throw new Exception("Missing Webhook", 1);
-        }
-
         $this->webhook = $webhook;
     }
 
@@ -40,6 +36,11 @@ class WebhookService extends BaseService
             'content' => $content,
             'flag' => $flag,
         ];
+
+
+        if (is_null($this->webhook)) {
+            throw new Exception("Missing webhook", 1);
+        }
 
         $response = $this->curl::post($this->webhook, $headers, $query);
 

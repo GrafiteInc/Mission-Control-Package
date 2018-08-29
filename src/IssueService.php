@@ -17,10 +17,6 @@ class IssueService extends BaseService
     {
         parent::__construct();
 
-        if (is_null($token)) {
-            throw new Exception("Missing token", 1);
-        }
-
         $this->token = $token;
         $this->missionControlUrl = $this->missionControlDomain('issue');
     }
@@ -37,6 +33,10 @@ class IssueService extends BaseService
         $headers = [
             'token' => $this->token,
         ];
+
+        if (is_null($this->token)) {
+            throw new Exception("Missing token", 1);
+        }
 
         $query = $this->processException($exception);
 

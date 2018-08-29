@@ -23,10 +23,6 @@ class PerformanceService extends BaseService
     {
         parent::__construct();
 
-        if (is_null($token)) {
-            throw new Exception("Missing token", 1);
-        }
-
         $this->token = $token;
         $this->performanceAnalyzer = new PerformanceAnalyzer;
         $this->issueService = new IssueService($this->token);
@@ -45,6 +41,10 @@ class PerformanceService extends BaseService
         $headers = [
             'token' => $this->token,
         ];
+
+        if (is_null($this->token)) {
+            throw new Exception("Missing token", 1);
+        }
 
         $query = $this->getPerformance();
 
