@@ -10,13 +10,9 @@ use Grafite\MissionControl\IssueService;
 class PerformanceService extends BaseService
 {
     public $token;
-
     public $curl;
-
     public $performanceAnalyzer;
-
     public $issueService;
-
     protected $missionControlUrl;
 
     public function __construct($token = null)

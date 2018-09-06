@@ -2,6 +2,7 @@
 
 namespace Grafite\MissionControl\Analyzers;
 
+use Exception;
 use Carbon\Carbon;
 use Kassner\LogParser\LogParser;
 
@@ -40,6 +41,10 @@ class TrafficAnalyzer
      */
     public function getLogCollection($now, $then)
     {
+        if (!file_exists($this->fileName)) {
+            throw new Exception("Access log file is not present - no traffic to report.", 1);
+        }
+
         $collection = [];
         $lines = file($this->fileName, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
