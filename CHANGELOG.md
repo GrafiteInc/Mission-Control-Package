@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v1.0.10] - 2018-09-12
+
+### Changed
+- Analyze performance more in the moment
+
 ## [v1.0.9] - 2018-09-06
 
 ### Fixed
