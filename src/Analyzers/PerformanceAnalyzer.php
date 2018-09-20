@@ -60,7 +60,9 @@ class PerformanceAnalyzer
             $total = disk_total_space('/');
         }
 
-        return round(($free / $total) * 100);
+        $used = $total - $free;
+
+        return round(($used / $total) * 100);
     }
 
     public function getCoreInformation($coreInfo)

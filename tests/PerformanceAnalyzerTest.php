@@ -34,6 +34,6 @@ Swap:       1003516      496640      506876");
     {
         $result = $this->service->getStorage(1000, 9000);
 
-        $this->assertEquals(11.0, $result);
+        $this->assertEquals(89.0, $result);
     }
 }
