@@ -11,7 +11,7 @@
     "require": {
         "php": ">=7.1",
         "mashape/unirest-php": "^3.0",
-        "kassner/log-parser": "^1.4",
+        "kassner/log-parser": "^1.5",
         "nesbot/carbon": "^1.25",
         "tightenco/collect": "^5.6"
     },
