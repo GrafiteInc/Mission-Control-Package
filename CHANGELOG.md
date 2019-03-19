@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v1.0.12] - 2019-03-19
+
+### Added
+- forced updated of log parser
+
 ## [v1.0.11] - 2018-09-20
 
 ### Fixed
