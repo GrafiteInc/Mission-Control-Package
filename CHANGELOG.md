@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v1.0.13] - 2019-03-29
+
+### Added
+- Allowed Carbon to be version 2.x as well
+
 ## [v1.0.12] - 2019-03-19
 
 ### Added
