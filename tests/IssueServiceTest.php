@@ -11,7 +11,7 @@ class IssueServiceTest extends TestCase
     {
         parent::setUp();
 
-        $this->service = new IssueService('foo');
+        $this->service = new IssueService('foo', 'bar');
         $this->request = new \Tests\MockRequest;
         $this->service->setCurl($this->request);
     }

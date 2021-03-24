@@ -9,16 +9,35 @@ class IssueService extends BaseService
 {
     public $token;
 
+    public $key;
+
     public $curl;
+
+    public $baseRequest;
 
     protected $missionControlUrl;
 
-    public function __construct($token = null)
+    public function __construct($token = null, $key = null)
     {
         parent::__construct();
 
         $this->token = $token;
+        $this->key = $key;
         $this->missionControlUrl = $this->missionControlDomain('issue');
+        $this->baseRequest = $this->defaultRequest();
+    }
+
+    /**
+     * Override the details of the request.
+     *
+     * @param array $values
+     * @return self
+     */
+    public function setBaseRequest($values)
+    {
+        $this->baseRequest = $values;
+
+        return $this;
     }
 
     /**
@@ -31,11 +50,16 @@ class IssueService extends BaseService
     public function exception($exception)
     {
         $headers = [
-            'token' => $this->token,
+            'Authorization' => 'Bearer ' . $this->token,
+            'key' => $this->key,
         ];
 
         if (is_null($this->token)) {
             throw new Exception("Missing token", 1);
+        }
+
+        if (is_null($this->key)) {
+            throw new Exception("Missing key", 1);
         }
 
         $query = $this->processException($exception);
@@ -53,17 +77,26 @@ class IssueService extends BaseService
      * Send the log to Mission Control
      *
      * @param  string $message
-     * @param  string $flag
+     * @param  string $tag
      *
      * @return bool
      */
-    public function log($message, $flag)
+    public function log($message, $tag)
     {
         $headers = [
-            'token' => $this->token,
+            'Authorization' => 'Bearer ' . $this->token,
+            'key' => $this->key,
         ];
 
-        $query = $this->processLog($message, $flag);
+        if (is_null($this->token)) {
+            throw new Exception("Missing token", 1);
+        }
+
+        if (is_null($this->key)) {
+            throw new Exception("Missing key", 1);
+        }
+
+        $query = $this->processLog($message, $tag);
 
         $response = $this->curl::post($this->missionControlUrl, $headers, $query);
 
@@ -93,28 +126,28 @@ class IssueService extends BaseService
             ]),
         ];
 
-        return array_merge($this->baseRequest(), $requestDetails);
+        return array_merge($this->baseRequest, $requestDetails);
     }
 
     /**
      * Collect data and set report details.
      *
      * @param String $message
-     * @param String $flag
+     * @param String $tag
      *
      * @return array
      */
-    public function processLog($message, $flag)
+    public function processLog($message, $tag)
     {
         $requestDetails = [
             'type' => 'log',
             'data' => json_encode([
-                'flag' => $flag,
+                'tag' => $tag,
                 'message' => $message,
             ]),
         ];
 
-        return array_merge($this->baseRequest(), $requestDetails);
+        return array_merge($this->baseRequest, $requestDetails);
     }
 
     /**
@@ -122,7 +155,7 @@ class IssueService extends BaseService
      *
      * @return array
      */
-    protected function baseRequest()
+    protected function defaultRequest()
     {
         return [
             'report_referer' => $this->server('HTTP_REFERER', ''),

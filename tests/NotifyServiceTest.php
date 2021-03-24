@@ -2,8 +2,9 @@
 
 namespace Tests;
 
-use Grafite\MissionControl\WebhookService;
 use Tests\TestCase;
+use Grafite\MissionControl\NotifyService;
+use Grafite\MissionControl\WebhookService;
 
 class WebhookServiceTest extends TestCase
 {
@@ -11,7 +12,7 @@ class WebhookServiceTest extends TestCase
     {
         parent::setUp();
 
-        $this->service = new WebhookService('foobar.foo');
+        $this->service = new NotifyService('foobar', 'bash');
         $this->request = new \Tests\MockRequest;
         $this->service->setCurl($this->request);
     }

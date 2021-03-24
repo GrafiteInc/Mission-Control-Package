@@ -15,13 +15,15 @@ class PerformanceService extends BaseService
     public $issueService;
     protected $missionControlUrl;
 
-    public function __construct($token = null)
+    public function __construct($token = null, $key = null)
     {
         parent::__construct();
 
         $this->token = $token;
+        $this->key = $key;
+
         $this->performanceAnalyzer = new PerformanceAnalyzer;
-        $this->issueService = new IssueService($this->token);
+        $this->issueService = new IssueService($this->token, $this->key);
         $this->missionControlUrl = $this->missionControlDomain('performance');
     }
 
@@ -35,11 +37,16 @@ class PerformanceService extends BaseService
     public function sendPerformance()
     {
         $headers = [
-            'token' => $this->token,
+            'Authorization' => 'Bearer ' . $this->token,
+            'key' => $this->key,
         ];
 
         if (is_null($this->token)) {
             throw new Exception("Missing token", 1);
+        }
+
+        if (is_null($this->key)) {
+            throw new Exception("Missing key", 1);
         }
 
         $query = $this->getPerformance();
