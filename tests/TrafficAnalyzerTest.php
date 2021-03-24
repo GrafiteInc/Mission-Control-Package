@@ -7,7 +7,7 @@ use Tests\TestCase;
 
 class TrafficAnalyzerTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

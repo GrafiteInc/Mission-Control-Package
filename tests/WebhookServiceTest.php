@@ -7,7 +7,7 @@ use Tests\TestCase;
 
 class WebhookServiceTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

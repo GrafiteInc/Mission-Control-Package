@@ -1,6 +1,6 @@
 # Mission Control PHP Package
 
-[![Build Status](https://travis-ci.org/GrafiteInc/Mission-Control-Package.svg?branch=master)](https://travis-ci.org/GrafiteInc/Mission-Control-Package)
+[![Build Status](https://github.com/GrafiteInc/Mission-Control-Package/workflows/PHP%20Package%20Tests/badge.svg?branch=master)](https://github.com/GrafiteInc/Mission-Control-Package/actions?query=workflow%3A%22PHP+Package+Tests%22)
 [![Packagist](https://img.shields.io/packagist/dt/grafite/mission-control.svg)](https://packagist.org/packages/grafite/mission-control)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://packagist.org/packages/grafite/mission-control-package)
 
@@ -10,7 +10,7 @@ Grafite's Mission Control is an elegant Application Performance Management syste
 
 ## Requirements
 
-1. PHP 7.1+
+1. PHP 7.3+
 
 ### Composer
 
