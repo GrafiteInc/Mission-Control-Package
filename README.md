@@ -20,7 +20,7 @@ composer require grafite/mission-control
 
 ### IssueService
 
-IssueService lets you peak into your exceptions or any flagged messages you'd like to track. You can do so using the following methods:
+IssueService lets you peak into your exceptions or any tagged messages you'd like to track. You can do so using the following methods:
 
 ```
 use Grafite\MissionControl\IssueService;
@@ -28,7 +28,7 @@ use Grafite\MissionControl\IssueService;
 try {
     // do some code
 } catch (Exception $e) {
-    $issueService = new IssueService('{API Token}');
+    $issueService = new IssueService('{API Token}', '{Project Key}');
     $issueService->exception($e);
 }
 ```
@@ -38,22 +38,22 @@ Or if you just want to flag an potential issue or concern in your applicaiton:
 ```
 use Grafite\MissionControl\IssueService;
 
-$issueService = new IssueService('{API Token}');
-$issueService->log('Anything you want to say goes here', 'flag');
+$issueService = new IssueService('{API Token}', '{Project Key}');
+$issueService->log('Anything you want to say goes here', 'tag');
 ```
 
-##### Flags
+##### Tags
 
-Flags can be any terminology you want, to help sort through your issues.
+Tags can be any terminology you want, to help sort through your issues.
 
-### WebhookService
+### NotifyService
 
-You can easily tie the webhooks into your application with this package using class and method:
+You can easily give yourself tagged notifications for your applications throuh this handy service.
 
 ```
-use Grafite\MissionControl\WebhookService;
+use Grafite\MissionControl\NotifyService;
 
-(new WebhookService('{your-projects-webhook}'))->send('This is a title', 'This is a custom message', 'info');
+(new NotifyService('{API Token}', '{Project Key}'))->send('This is a title', 'This is a custom message', 'info');
 ```
 
 ### PerformanceService
@@ -63,30 +63,6 @@ Add this cron job to enable PerformanceService which scans your system to report
 ```
 */5 * * * * /{app-path}/vendor/bin/performance {API token}
 ```
-
-### TrafficService
-
-Want to track some basic inforation about your web traffic? You'll need to make sure you've enabled `access.log` tracking, then add this cron job to your server.
-
-```
-*/5 * * * * /{app-path}/vendor/bin/traffic {API token} {path-to-access.log} {format --optional (nginx default)}
-```
-
-#### TrafficService formats
-
-nginx: %a %l %u %t "%m %U %H" %>s %O "%{Referer}i" \"%{User-Agent}i"
-apache: %h %l %u %t "%r" %>s %b
-
-#### Quick tip for Forge users
-
-This simple command can enable your access logs after you restart Ngnix.
-
-```
-sudo su
-sed -i -e 's/access_log off;/access_log \/var\/log\/nginx\/{domain}-access.log;/g' /etc/nginx/sites-available/{domain}
-```
-
-Your log should then be `/var/log/nginx/{domain}-access.log`
 
 ## License
 Mission Control PHP Package is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
