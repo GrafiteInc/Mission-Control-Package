@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v2.0.0] - 2021-03-24
+
+### Changed
+- Removed webhoook
+- New notify service
+- tokens and keys required
+- General improvements
+
 ## [v1.0.13] - 2019-03-29
 
 ### Added
