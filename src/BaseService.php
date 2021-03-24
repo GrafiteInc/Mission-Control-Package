@@ -20,7 +20,7 @@ class BaseService
 
     public function missionControlDomain($url)
     {
-        return 'https://getmissioncontrol.io/api/'.$url;
+        return 'https://missioncontrolapp.io/api/'.$url;
     }
 
     public function error($message)
