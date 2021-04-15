@@ -35,7 +35,7 @@ class NotifyService extends BaseService
     {
         $headers = [
             'Authorization' => 'Bearer ' . $this->token,
-            'token' => $this->key,
+            'key' => $this->key,
         ];
 
         if (is_null($this->token)) {
