@@ -31,7 +31,7 @@ class NotifyService extends BaseService
      *
      * @return bool
      */
-    public function send($title, $message, $tag)
+    public function send($title, $tag, $message)
     {
         $headers = [
             'Authorization' => 'Bearer ' . $this->token,

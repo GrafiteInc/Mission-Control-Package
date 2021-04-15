@@ -53,7 +53,7 @@ You can easily give yourself tagged notifications for your applications throuh t
 ```
 use Grafite\MissionControl\NotifyService;
 
-(new NotifyService('{API Token}', '{Project Key}'))->send('This is a title', 'This is a custom message', 'info');
+(new NotifyService('{API Token}', '{Project Key}'))->send('This is a title', 'info', 'This is a custom message');
 ```
 
 ### PerformanceService
