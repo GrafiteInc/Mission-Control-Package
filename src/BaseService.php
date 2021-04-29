@@ -20,7 +20,13 @@ class BaseService
 
     public function missionControlDomain($url)
     {
-        return 'https://missioncontrolapp.io/api/'.$url;
+        $domain = 'https://missioncontrolapp.io';
+
+        if (getenv('MISSION_CONTROL_URL')) {
+            $domain = getenv('MISSION_CONTROL_URL');
+        }
+
+        return "{$domain}/api/{$url}";
     }
 
     public function error($message)
