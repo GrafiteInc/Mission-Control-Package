@@ -123,6 +123,8 @@ class IssueService extends BaseService
                 'exception_trace' => $exception->getTrace(),
                 'exception_file' => $exception->getFile(),
                 'exception_line' => $exception->getLine(),
+                'file_contents' => file_get_contents($exception->getFile()),
+                'headers' => $this->headers(),
             ]),
         ];
 
@@ -144,6 +146,7 @@ class IssueService extends BaseService
             'data' => json_encode([
                 'tag' => $tag,
                 'message' => $message,
+                'headers' => getallheaders(),
             ]),
         ];
 
@@ -183,5 +186,19 @@ class IssueService extends BaseService
     public function server($index, $default)
     {
         return (isset($_SERVER[$index])) ? $_SERVER[$index] : $default;
+    }
+
+    /**
+     * Define the headers from the request
+     *
+     * @return array
+     */
+    public function headers()
+    {
+        $headers = getallheaders();
+
+        unset($headers['Cookie']);
+
+        return $headers;
     }
 }
