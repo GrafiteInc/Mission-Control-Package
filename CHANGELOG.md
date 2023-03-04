@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v2.4.0] - 2023-03-04
+
+### Added
+- New Stats and Dependency logging
+
+### Changed
+- Small improvements
+
 ## [v2.3.0] - 2021-09-20
 
 ### Added
