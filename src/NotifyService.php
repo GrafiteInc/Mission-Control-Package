@@ -3,6 +3,7 @@
 namespace Grafite\MissionControl;
 
 use Exception;
+use Illuminate\Support\Facades\Http;
 use Grafite\MissionControl\BaseService;
 
 class NotifyService extends BaseService
@@ -17,8 +18,6 @@ class NotifyService extends BaseService
 
     public function __construct($token = null, $key = null)
     {
-        parent::__construct();
-
         $this->token = $token;
         $this->key = $key;
         $this->missionControlUrl = $this->missionControlDomain('notify');
@@ -52,9 +51,9 @@ class NotifyService extends BaseService
             'tag' => $tag,
         ];
 
-        $response = $this->curl::post($this->missionControlUrl, $headers, $query);
+        $response = Http::withHeaders($headers)->post($this->missionControlUrl, $query);
 
-        if ($response->code != 200) {
+        if ($response->status() != 200) {
             $this->error('Unable to message Mission Control, please confirm your token and key');
         }
 

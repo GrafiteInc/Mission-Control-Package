@@ -3,9 +3,10 @@
 namespace Grafite\MissionControl;
 
 use Exception;
-use Grafite\MissionControl\Analyzers\PerformanceAnalyzer;
+use Illuminate\Support\Facades\Http;
 use Grafite\MissionControl\BaseService;
 use Grafite\MissionControl\IssueService;
+use Grafite\MissionControl\Analyzers\PerformanceAnalyzer;
 
 class PerformanceService extends BaseService
 {
@@ -51,10 +52,10 @@ class PerformanceService extends BaseService
 
         $query = $this->getPerformance();
 
-        $response = $this->curl::post($this->missionControlUrl, $headers, $query);
+        $response = Http::withHeaders($headers)->post($this->missionControlUrl, $query);
 
-        if ($response->code != 200) {
-            $this->error('Unable to message Mission Control, please confirm your token');
+        if ($response->status() != 200) {
+            $this->error('Unable to message Mission Control, please confirm your token and key');
         }
 
         return true;

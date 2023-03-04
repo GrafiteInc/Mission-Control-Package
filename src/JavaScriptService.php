@@ -14,8 +14,6 @@ class JavaScriptService extends BaseService
 
     public function __construct($uuid, $key)
     {
-        parent::__construct();
-
         $this->uuid = $uuid;
         $this->key = $key;
     }

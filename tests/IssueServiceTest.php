@@ -2,22 +2,25 @@
 
 namespace Tests;
 
-use PHPUnit\Framework\TestCase;
+use Orchestra\Testbench\TestCase;
+use Illuminate\Support\Facades\Http;
 use Grafite\MissionControl\IssueService;
 
 class IssueServiceTest extends TestCase
 {
+    public $service;
+
     public function setUp(): void
     {
         parent::setUp();
 
         $this->service = new IssueService('foo', 'bar');
-        $this->request = new \Tests\MockRequest;
-        $this->service->setCurl($this->request);
     }
 
     public function testSend()
     {
+        Http::fake();
+
         $result = $this->service->log('foobar', 'info');
 
         $this->assertTrue($result);

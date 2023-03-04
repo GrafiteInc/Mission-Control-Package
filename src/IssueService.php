@@ -3,6 +3,7 @@
 namespace Grafite\MissionControl;
 
 use Exception;
+use Illuminate\Support\Facades\Http;
 use Grafite\MissionControl\BaseService;
 
 class IssueService extends BaseService
@@ -19,8 +20,6 @@ class IssueService extends BaseService
 
     public function __construct($token = null, $key = null)
     {
-        parent::__construct();
-
         $this->token = $token;
         $this->key = $key;
         $this->missionControlUrl = $this->missionControlDomain('issue');
@@ -64,10 +63,10 @@ class IssueService extends BaseService
 
         $query = $this->processException($exception);
 
-        $response = $this->curl::post($this->missionControlUrl, $headers, $query);
+        $response = Http::withHeaders($headers)->post($this->missionControlUrl, $query);
 
-        if ($response->code != 200) {
-            $this->error('Unable to message Mission Control, please confirm your token');
+        if ($response->status() != 200) {
+            $this->error('Unable to message Mission Control, please confirm your token and key');
         }
 
         return true;
@@ -98,10 +97,10 @@ class IssueService extends BaseService
 
         $query = $this->processLog($message, $tag);
 
-        $response = $this->curl::post($this->missionControlUrl, $headers, $query);
+        $response = Http::withHeaders($headers)->post($this->missionControlUrl, $query);
 
-        if ($response->code != 200) {
-            $this->error('Unable to message Mission Control, please confirm your token');
+        if ($response->status() != 200) {
+            $this->error('Unable to message Mission Control, please confirm your token and key');
         }
 
         return true;
@@ -143,11 +142,11 @@ class IssueService extends BaseService
     {
         $requestDetails = [
             'type' => 'log',
-            'data' => json_encode([
+            'data' => [
                 'tag' => $tag,
                 'message' => $message,
                 'headers' => $this->headers(),
-            ]),
+            ],
         ];
 
         return array_merge($this->baseRequest, $requestDetails);
