@@ -48,12 +48,20 @@ Tags can be any terminology you want, to help sort through your issues.
 
 ### NotifyService
 
-You can easily give yourself tagged notifications for your applications throuh this handy service.
+You can easily give yourself tagged notifications for your applications through this handy service.
 
 ```
 use Grafite\MissionControl\NotifyService;
 
 (new NotifyService('{API Token}', '{Project Key}'))->send('This is a title', 'info', 'This is a custom message');
+```
+
+### JavaScriptService
+
+Want to get notified when users have JavaScript issues, just place this at the end of your scripts in your app templates.
+
+```
+echo (new Grafite\MissionControl\JavaScriptService($uuid, $key))->render();
 ```
 
 ### PerformanceService

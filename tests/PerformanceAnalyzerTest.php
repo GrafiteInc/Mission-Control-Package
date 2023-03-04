@@ -2,8 +2,8 @@
 
 namespace Tests;
 
+use PHPUnit\Framework\TestCase;
 use Grafite\MissionControl\Analyzers\PerformanceAnalyzer;
-use Tests\TestCase;
 
 class PerformanceAnalyzerTest extends TestCase
 {

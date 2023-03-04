@@ -3,22 +3,22 @@
 namespace Tests;
 
 use PHPUnit\Framework\TestCase;
-use Grafite\MissionControl\IssueService;
+use Grafite\MissionControl\StatsService;
 
-class IssueServiceTest extends TestCase
+class StatsServiceTest extends TestCase
 {
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->service = new IssueService('foo', 'bar');
+        $this->service = new StatsService('foobar', 'bash');
         $this->request = new \Tests\MockRequest;
         $this->service->setCurl($this->request);
     }
 
     public function testSend()
     {
-        $result = $this->service->log('foobar', 'info');
+        $result = $this->service->send(['users' => 30, 'jobs' => 10]);
 
         $this->assertTrue($result);
     }

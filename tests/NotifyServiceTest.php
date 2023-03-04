@@ -2,11 +2,10 @@
 
 namespace Tests;
 
-use Tests\TestCase;
+use PHPUnit\Framework\TestCase;
 use Grafite\MissionControl\NotifyService;
-use Grafite\MissionControl\WebhookService;
 
-class WebhookServiceTest extends TestCase
+class NotifyServiceTest extends TestCase
 {
     public function setUp(): void
     {

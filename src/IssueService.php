@@ -146,7 +146,7 @@ class IssueService extends BaseService
             'data' => json_encode([
                 'tag' => $tag,
                 'message' => $message,
-                'headers' => getallheaders(),
+                'headers' => $this->headers(),
             ]),
         ];
 
@@ -195,7 +195,13 @@ class IssueService extends BaseService
      */
     public function headers()
     {
-        $headers = getallheaders();
+        $headers = [];
+
+        foreach ($_SERVER as $name => $value) {
+            if (substr($name, 0, 5) == 'HTTP_') {
+                $headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value;
+            }
+        }
 
         unset($headers['Cookie']);
 
