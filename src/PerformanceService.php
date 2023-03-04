@@ -18,8 +18,6 @@ class PerformanceService extends BaseService
 
     public function __construct($token = null, $key = null)
     {
-        parent::__construct();
-
         $this->token = $token;
         $this->key = $key;
 
