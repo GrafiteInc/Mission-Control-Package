@@ -6,21 +6,19 @@ use Exception;
 
 class PerformanceAnalyzer
 {
-    public function getCpu($coreInfo = null)
+    public function getCpu()
     {
-        $stats1 = $this->getCoreInformation($coreInfo);
-        sleep(1);
-        $stats2 = $this->getCoreInformation($coreInfo);
+        $load = sys_getloadavg();
 
-        $cpu = $this->getCpuPercentages($stats1, $stats2);
+        $ncpu = 1;
 
-        $cpuState = $cpu['cpu0']['user'] + $cpu['cpu0']['nice'] + $cpu['cpu0']['sys'];
-
-        if ($cpuState < 0) {
-            return 0;
+        if (is_file('/proc/cpuinfo')) {
+            $cpuinfo = file_get_contents('/proc/cpuinfo');
+            preg_match_all('/^processor/m', $cpuinfo, $matches);
+            $ncpu = count($matches[0]);
         }
 
-        return $cpuState;
+        return round($load[0] / $ncpu, 4) * 100;
     }
 
     public function getMemory($data = null)
@@ -63,58 +61,5 @@ class PerformanceAnalyzer
         $used = $total - $free;
 
         return round(($used / $total) * 100);
-    }
-
-    public function getCoreInformation($coreInfo)
-    {
-        if (is_null($coreInfo)) {
-            $coreInfo = file('/proc/stat');
-        }
-
-        $data = $coreInfo;
-        $cores = [];
-        foreach ($data as $line) {
-            if (preg_match('/^cpu[0-9]/', $line)) {
-                $info = explode(' ', $line);
-                $cores[] = [
-                    'user' => $info[1],
-                    'nice' => $info[2],
-                    'sys' => $info[3],
-                    'idle' => $info[4],
-                ];
-            }
-        }
-        return $cores;
-    }
-
-    public function getCpuPercentages($stat1, $stat2)
-    {
-        if (count($stat1) !== count($stat2)) {
-            return;
-        }
-
-        $cpus = [];
-
-        for ($i = 0, $l = count($stat1); $i < $l; $i++) {
-            $dif = [];
-            $dif['user'] = $stat2[$i]['user'] - $stat1[$i]['user'];
-            $dif['nice'] = $stat2[$i]['nice'] - $stat1[$i]['nice'];
-            $dif['sys'] = $stat2[$i]['sys'] - $stat1[$i]['sys'];
-            $dif['idle'] = $stat2[$i]['idle'] - $stat1[$i]['idle'];
-            $total = array_sum($dif);
-            $cpu = [];
-
-            foreach ($dif as $x => $y) {
-                $cpu[$x] = 0;
-
-                if ($y !== 0) {
-                    $cpu[$x] = round($y / $total * 100, 1);
-                }
-            }
-
-            $cpus['cpu' . $i] = $cpu;
-        }
-
-        return $cpus;
     }
 }
