@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v2.8.0] - 2023-03-06
+
+### Changed
+- The way CPU is measured - again
+
 ## [v2.7.0] - 2023-03-05
 
 ### Changed
