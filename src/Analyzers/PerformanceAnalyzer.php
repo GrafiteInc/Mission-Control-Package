@@ -3,49 +3,24 @@
 namespace Grafite\MissionControl\Analyzers;
 
 use Exception;
-use Illuminate\Support\Str;
 
 class PerformanceAnalyzer
 {
-    public function getCpu()
+    public function getCpu($coreInfo = null)
     {
-        $load = null;
+        $stats1 = $this->getCoreInformation($coreInfo);
+        sleep(3);
+        $stats2 = $this->getCoreInformation($coreInfo);
 
-        if (stristr(PHP_OS, "windows")) {
-            $cmd = "wmic cpu get loadpercentage /all";
-            @exec($cmd, $output);
+        $cpu = $this->getCpuPercentages($stats1, $stats2);
 
-            if ($output) {
-                foreach ($output as $line) {
-                    if ($line && preg_match("/^[0-9]+\$/", $line)) {
-                        $load = $line;
-                        break;
-                    }
-                }
-            }
+        $cpuState = $cpu['cpu0']['user'] + $cpu['cpu0']['sys'];
+
+        if ($cpuState < 0) {
+            return 0;
         }
 
-        if (stristr(PHP_OS, "linux")) {
-            $cpu1 = $this->getCpuOnLinux();
-            sleep(1);
-            $cpu2 = $this->getCpuOnLinux();
-            sleep(2);
-            $cpu3 = $this->getCpuOnLinux();
-
-            $load = round(($cpu1 + $cpu2 + $cpu3) / 3, 2);
-        }
-
-        if (stristr(PHP_OS, "darwin")) {
-            $cpu1 = $this->getCpuOnDarwin();
-            sleep(1);
-            $cpu2 = $this->getCpuOnDarwin();
-            sleep(2);
-            $cpu3 = $this->getCpuOnDarwin();
-
-            $load = round(($cpu1 + $cpu2 + $cpu3) / 3, 2);
-        }
-
-        return $load;
+        return $cpuState;
     }
 
     public function getMemory($data = null)
@@ -90,21 +65,56 @@ class PerformanceAnalyzer
         return round(($used / $total) * 100);
     }
 
-    protected function getCpuOnDarwin()
+    public function getCoreInformation($coreInfo)
     {
-        $exec = shell_exec('top -l 1 -n 1 2>&1; echo $?');
-        $idleString = (string) Str::of($exec)->substr(strpos($exec, 'idle')-7, 7)->replace('%', '');
-        $idle = (float) trim($idleString);
+        if (is_null($coreInfo)) {
+            $coreInfo = file('/proc/stat');
+        }
 
-        return round(100 - $idle, 2);
+        $data = $coreInfo;
+        $cores = [];
+        foreach ($data as $line) {
+            if (preg_match('/^cpu[0-9]/', $line)) {
+                $info = explode(' ', $line);
+                $cores[] = [
+                    'user' => $info[1],
+                    'nice' => $info[2],
+                    'sys' => $info[3],
+                    'idle' => $info[4],
+                ];
+            }
+        }
+        return $cores;
     }
 
-    protected function getCpuOnLinux()
+    public function getCpuPercentages($stat1, $stat2)
     {
-        $exec = shell_exec('top -b 1 -n 1 2>&1; echo $?');
-        $idleString = (string) Str::of($exec)->substr(strpos($exec, ' id')-5, 6)->replace('%', '');
-        $idle = (float) trim($idleString);
+        if (count($stat1) !== count($stat2)) {
+            return;
+        }
 
-        return round(100 - $idle, 2);
+        $cpus = [];
+
+        for ($i = 0, $l = count($stat1); $i < $l; $i++) {
+            $dif = [];
+            $dif['user'] = $stat2[$i]['user'] - $stat1[$i]['user'];
+            $dif['nice'] = $stat2[$i]['nice'] - $stat1[$i]['nice'];
+            $dif['sys'] = $stat2[$i]['sys'] - $stat1[$i]['sys'];
+            $dif['idle'] = $stat2[$i]['idle'] - $stat1[$i]['idle'];
+            $total = array_sum($dif);
+            $cpu = [];
+
+            foreach ($dif as $x => $y) {
+                $cpu[$x] = 0;
+
+                if ($y !== 0) {
+                    $cpu[$x] = round($y / $total * 100, 1);
+                }
+            }
+
+            $cpus['cpu' . $i] = $cpu;
+        }
+
+        return $cpus;
     }
 }
