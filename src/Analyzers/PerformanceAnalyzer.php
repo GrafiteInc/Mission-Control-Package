@@ -6,15 +6,15 @@ use Exception;
 
 class PerformanceAnalyzer
 {
-    public function getCpu($coreInfo = null)
+    public function getCpu($coreInfo1 = null, $coreInfo2 = null)
     {
-        $stats1 = $this->getCoreInformation($coreInfo);
-        sleep(3);
-        $stats2 = $this->getCoreInformation($coreInfo);
+        $stats1 = $this->getCoreInformation($coreInfo1);
+        sleep(5);
+        $stats2 = $this->getCoreInformation($coreInfo2);
 
         $cpu = $this->getCpuPercentages($stats1, $stats2);
 
-        $cpuState = $cpu['cpu0']['user'] + $cpu['cpu0']['sys'];
+        $cpuState = $cpu['cpu0']['user'] + $cpu['cpu0']['sys'] + $cpu['cpu0']['nice'];
 
         if ($cpuState < 0) {
             return 0;

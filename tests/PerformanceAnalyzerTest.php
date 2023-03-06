@@ -18,9 +18,12 @@ class PerformanceAnalyzerTest extends TestCase
 
     public function testGetCpu()
     {
-        $result = $this->service->getCpu(file(__DIR__.'/fixtures/stat.txt'));
+        $result = $this->service->getCpu(
+            file(__DIR__.'/fixtures/stat1.txt'),
+            file(__DIR__.'/fixtures/stat2.txt')
+        );
 
-        $this->assertEquals(0, $result);
+        $this->assertGreaterThan(0, $result);
     }
 
     public function testGetMemory()
