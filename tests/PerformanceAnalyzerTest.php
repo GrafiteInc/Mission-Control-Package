@@ -18,10 +18,9 @@ class PerformanceAnalyzerTest extends TestCase
 
     public function testGetCpu()
     {
-        $this->markTestSkipped('Cannot consistently test.');
-        // $result = $this->service->getCpu();
+        $result = $this->service->getCpu();
 
-        // $this->assertGreaterThan(0, $result);
+        $this->assertGreaterThan(0, $result);
     }
 
     public function testGetMemory()

@@ -67,10 +67,18 @@ class PerformanceService extends BaseService
     public function getPerformance()
     {
         try {
+            $cpu = $this->performanceAnalyzer->getCpu();
+
+            // Because it could be a false 0 value.
+            if ($cpu === 0) {
+                sleep(3);
+                $cpu = $this->performanceAnalyzer->getCpu();
+            }
+
             return [
                 'memory' => $this->performanceAnalyzer->getMemory(),
                 'storage' => $this->performanceAnalyzer->getStorage(),
-                'cpu' => $this->performanceAnalyzer->getCpu(),
+                'cpu' => $cpu,
             ];
         } catch (Exception $e) {
             $this->issueService->exception($e);
