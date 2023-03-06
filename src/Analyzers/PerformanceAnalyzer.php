@@ -26,19 +26,23 @@ class PerformanceAnalyzer
         }
 
         if (stristr(PHP_OS, "linux")) {
-            $exec = shell_exec('top -b 1 -n 1 2>&1; echo $?');
-            $idleString = (string) Str::of($exec)->substr(strpos($exec, ' id')-5, 6)->replace('%', '');
-            $idle = (float) trim($idleString);
+            $cpu1 = $this->getCpuOnLinux();
+            sleep(1);
+            $cpu2 = $this->getCpuOnLinux();
+            sleep(2);
+            $cpu3 = $this->getCpuOnLinux();
 
-            $load = round(100 - $idle, 2);
+            $load = round(($cpu1 + $cpu2 + $cpu3) / 3, 2);
         }
 
         if (stristr(PHP_OS, "darwin")) {
-            $exec = shell_exec('top -l 1 -n 1 2>&1; echo $?');
-            $idleString = (string) Str::of($exec)->substr(strpos($exec, 'idle')-7, 7)->replace('%', '');
-            $idle = (float) trim($idleString);
+            $cpu1 = $this->getCpuOnDarwin();
+            sleep(1);
+            $cpu2 = $this->getCpuOnDarwin();
+            sleep(2);
+            $cpu3 = $this->getCpuOnDarwin();
 
-            $load = round(100 - $idle, 2);
+            $load = round(($cpu1 + $cpu2 + $cpu3) / 3, 2);
         }
 
         return $load;
@@ -84,5 +88,23 @@ class PerformanceAnalyzer
         $used = $total - $free;
 
         return round(($used / $total) * 100);
+    }
+
+    protected function getCpuOnDarwin()
+    {
+        $exec = shell_exec('top -l 1 -n 1 2>&1; echo $?');
+        $idleString = (string) Str::of($exec)->substr(strpos($exec, 'idle')-7, 7)->replace('%', '');
+        $idle = (float) trim($idleString);
+
+        return round(100 - $idle, 2);
+    }
+
+    protected function getCpuOnLinux()
+    {
+        $exec = shell_exec('top -b 1 -n 1 2>&1; echo $?');
+        $idleString = (string) Str::of($exec)->substr(strpos($exec, ' id')-5, 6)->replace('%', '');
+        $idle = (float) trim($idleString);
+
+        return round(100 - $idle, 2);
     }
 }
