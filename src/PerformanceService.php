@@ -11,6 +11,7 @@ use Grafite\MissionControl\Analyzers\PerformanceAnalyzer;
 class PerformanceService extends BaseService
 {
     public $token;
+    public $key;
     public $curl;
     public $performanceAnalyzer;
     public $issueService;
