@@ -95,7 +95,7 @@ class SecurityService extends BaseService
             $this->error('Unable to message Mission Control, please confirm your token and key');
         }
 
-        return true;
+        return $query;
     }
 
     /**
