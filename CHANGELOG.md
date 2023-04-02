@@ -3,14 +3,6 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
-## [v2.13.0] - 2023-04-02
-
-### Added
-- New security service tracking
-
-### Fixed
-- Minor issue with performance
-
 ## [v2.12.0] - 2023-03-06
 
 ### Changed
