@@ -9,7 +9,7 @@ class PerformanceAnalyzer
     public function getCpu($coreInfo1 = null, $coreInfo2 = null)
     {
         $stats1 = $this->getCoreInformation($coreInfo1);
-        sleep(5);
+        sleep(1);
         $stats2 = $this->getCoreInformation($coreInfo2);
 
         $cpu = $this->getCpuPercentages($stats1, $stats2);

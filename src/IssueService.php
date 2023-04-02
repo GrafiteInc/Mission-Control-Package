@@ -157,7 +157,7 @@ class IssueService extends BaseService
      *
      * @return array
      */
-    protected function defaultRequest()
+    public function defaultRequest()
     {
         return [
             'report_referer' => $this->server('HTTP_REFERER', ''),
