@@ -53,7 +53,7 @@ class DependencyService extends BaseService
         $response = Http::withHeaders($headers)->post($this->missionControlUrl, $query);
 
         if ($response->status() != 200) {
-            $this->error('Unable to message Mission Control, please confirm your token and key');
+            $this->error($response->reason());
         }
 
         return true;
