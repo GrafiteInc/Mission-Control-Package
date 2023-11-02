@@ -21,9 +21,9 @@ class SecurityServiceTest extends TestCase
     {
         Http::fake();
 
-        $result = $this->service->recordThreat('invlaid-ip', ['url' => 'who', 'query' => 'foo']);
+        $result = $this->service->recordThreat('invalid-ip', ['url' => 'who', 'query' => 'foo']);
 
-        $this->assertTrue($result);
+        $this->assertEquals('invalid-ip', $result['type']);
     }
 
     public function testLookup()

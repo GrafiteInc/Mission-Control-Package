@@ -1,6 +1,6 @@
 # Mission Control PHP Package
 
-[![Build Status](https://github.com/GrafiteInc/Mission-Control-Package/workflows/PHP%20Package%20Tests/badge.svg?branch=master)](https://github.com/GrafiteInc/Mission-Control-Package/actions?query=workflow%3A%22PHP+Package+Tests%22)
+[![Build Status](https://github.com/GrafiteInc/Mission-Control-Package/workflows/PHP%20Package%20Tests/badge.svg?branch=main)](https://github.com/GrafiteInc/Mission-Control-Package/actions?query=workflow%3A%22PHP+Package+Tests%22)
 [![Packagist](https://img.shields.io/packagist/dt/grafite/mission-control.svg)](https://packagist.org/packages/grafite/mission-control)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://packagist.org/packages/grafite/mission-control-package)
 

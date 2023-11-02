@@ -51,7 +51,7 @@ class NotifyService extends BaseService
             'tag' => $tag,
         ];
 
-        $response = Http::withHeaders($headers)->post($this->missionControlUrl, $query);
+        $response = Http::withHeaders($headers)->retry(3, 100)->post($this->missionControlUrl, $query);
 
         if ($response->status() != 200) {
             $this->error($response->reason());
