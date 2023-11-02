@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v3.0.4] - 2023-11-02
+
+### Changed
+- Added retry options
+
 ## [v3.0.3] - 2023-04-19
 
 ### Fixed
