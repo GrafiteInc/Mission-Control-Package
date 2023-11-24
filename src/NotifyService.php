@@ -5,6 +5,7 @@ namespace Grafite\MissionControl;
 use Exception;
 use Illuminate\Support\Facades\Http;
 use Grafite\MissionControl\BaseService;
+use Illuminate\Http\Client\ConnectionException;
 
 class NotifyService extends BaseService
 {
@@ -51,12 +52,16 @@ class NotifyService extends BaseService
             'tag' => $tag,
         ];
 
-        $response = Http::withHeaders($headers)->retry(3, 100)->post($this->missionControlUrl, $query);
+        try {
+            $response = Http::withHeaders($headers)->retry(3, 100)->post($this->missionControlUrl, $query);
 
-        if ($response->status() != 200) {
-            $this->error($response->reason());
+            if ($response->status() != 200) {
+                $this->error($response->reason());
+            }
+
+            return true;
+        } catch (ConnectionException $th) {
+            // There is no need to log this as an issue.
         }
-
-        return true;
     }
 }

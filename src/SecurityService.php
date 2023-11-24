@@ -5,6 +5,7 @@ namespace Grafite\MissionControl;
 use Exception;
 use Illuminate\Support\Facades\Http;
 use Grafite\MissionControl\BaseService;
+use Illuminate\Http\Client\ConnectionException;
 
 class SecurityService extends BaseService
 {
@@ -51,13 +52,17 @@ class SecurityService extends BaseService
             'address' => $ipAddress,
         ];
 
-        $response = Http::withHeaders($headers)->retry(3, 100)->post($this->missionControlUrl, $query);
+        try {
+            $response = Http::withHeaders($headers)->retry(3, 100)->post($this->missionControlUrl, $query);
 
-        if ($response->status() != 200) {
-            $this->error($response->reason());
+            if ($response->status() != 200) {
+                $this->error($response->reason());
+            }
+
+            return true;
+        } catch (ConnectionException $th) {
+            // There is no need to log this as an issue.
         }
-
-        return true;
     }
 
     /**
@@ -89,13 +94,17 @@ class SecurityService extends BaseService
             'data' => array_merge(['input' => $payload], (new IssueService())->defaultRequest()),
         ];
 
-        $response = Http::withHeaders($headers)->retry(3, 100)->post($this->missionControlUrl, $query);
+        try {
+            $response = Http::withHeaders($headers)->retry(3, 100)->post($this->missionControlUrl, $query);
 
-        if ($response->status() != 200) {
-            $this->error($response->reason());
+            if ($response->status() != 200) {
+                $this->error($response->reason());
+            }
+
+            return $query;
+        } catch (ConnectionException $th) {
+            // There is no need to log this as an issue.
         }
-
-        return $query;
     }
 
     /**
@@ -126,15 +135,19 @@ class SecurityService extends BaseService
             'address' => $ipAddress,
         ];
 
-        $response = Http::withHeaders($headers)->retry(3, 100)->post($this->missionControlUrl, $query);
+        try {
+            $response = Http::withHeaders($headers)->retry(3, 100)->post($this->missionControlUrl, $query);
 
-        if ($response->status() != 200) {
-            $this->error($response->reason());
+            if ($response->status() != 200) {
+                $this->error($response->reason());
+            }
+
+            return [
+                $response->json('ip'),
+                $response->json('country'),
+            ];
+        } catch (ConnectionException $th) {
+            // There is no need to log this as an issue.
         }
-
-        return [
-            $response->json('ip'),
-            $response->json('country'),
-        ];
     }
 }

@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Support\Facades\Http;
 use Grafite\MissionControl\BaseService;
 use Grafite\MissionControl\IssueService;
+use Illuminate\Http\Client\ConnectionException;
 use Grafite\MissionControl\Analyzers\PerformanceAnalyzer;
 
 class PerformanceService extends BaseService
@@ -51,13 +52,17 @@ class PerformanceService extends BaseService
 
         $query = $this->getPerformance();
 
-        $response = Http::withHeaders($headers)->retry(3, 100)->post($this->missionControlUrl, $query);
+        try {
+            $response = Http::withHeaders($headers)->retry(3, 100)->post($this->missionControlUrl, $query);
 
-        if ($response->status() != 200) {
-            $this->error($response->reason());
+            if ($response->status() != 200) {
+                $this->error($response->reason());
+            }
+
+            return true;
+        } catch (ConnectionException $th) {
+            // There is no need to log this as an issue.
         }
-
-        return true;
     }
 
     /**
