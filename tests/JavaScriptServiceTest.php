@@ -7,6 +7,8 @@ use Grafite\MissionControl\JavaScriptService;
 
 class JavaScriptServiceTest extends TestCase
 {
+    public $service;
+
     public function setUp(): void
     {
         parent::setUp();
