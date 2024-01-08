@@ -8,19 +8,14 @@ class PerformanceAnalyzer
 {
     public function getCpu($coreInfo1 = null, $coreInfo2 = null)
     {
-        $stats1 = $this->getCoreInformation($coreInfo1);
-        sleep(1);
-        $stats2 = $this->getCoreInformation($coreInfo2);
+        sleep(15);
+        $cpu = $this->getCoreInformation($coreInfo1);
 
-        $cpu = $this->getCpuPercentages($stats1, $stats2);
-
-        $cpuState = $cpu['cpu0']['user'] + $cpu['cpu0']['sys'] + $cpu['cpu0']['nice'];
-
-        if ($cpuState < 0) {
+        if ($cpu < 0) {
             return 0;
         }
 
-        return $cpuState;
+        return $cpu;
     }
 
     public function getMemory($data = null)
@@ -67,54 +62,10 @@ class PerformanceAnalyzer
 
     public function getCoreInformation($coreInfo)
     {
-        if (is_null($coreInfo)) {
-            $coreInfo = file('/proc/stat');
-        }
-
-        $data = $coreInfo;
-        $cores = [];
-        foreach ($data as $line) {
-            if (preg_match('/^cpu[0-9]/', $line)) {
-                $info = explode(' ', $line);
-                $cores[] = [
-                    'user' => $info[1],
-                    'nice' => $info[2],
-                    'sys' => $info[3],
-                    'idle' => $info[4],
-                ];
-            }
-        }
-        return $cores;
-    }
-
-    public function getCpuPercentages($stat1, $stat2)
-    {
-        if (count($stat1) !== count($stat2)) {
-            return;
-        }
-
-        $cpus = [];
-
-        for ($i = 0, $l = count($stat1); $i < $l; $i++) {
-            $dif = [];
-            $dif['user'] = $stat2[$i]['user'] - $stat1[$i]['user'];
-            $dif['nice'] = $stat2[$i]['nice'] - $stat1[$i]['nice'];
-            $dif['sys'] = $stat2[$i]['sys'] - $stat1[$i]['sys'];
-            $dif['idle'] = $stat2[$i]['idle'] - $stat1[$i]['idle'];
-            $total = array_sum($dif);
-            $cpu = [];
-
-            foreach ($dif as $x => $y) {
-                $cpu[$x] = 0;
-
-                if ($y !== 0) {
-                    $cpu[$x] = round($y / $total * 100, 1);
-                }
-            }
-
-            $cpus['cpu' . $i] = $cpu;
-        }
-
-        return $cpus;
+        return match (PHP_OS_FAMILY) {
+            'Darwin' => (int) `top -l 1 | grep -E "^CPU" | tail -1 | awk '{ print $3 + $5 }'`,
+            'Linux' => (int) `top -bn1 | grep -E '^(%Cpu|CPU)' | awk '{ print $2 + $4 }'`,
+            default => throw new Exception('We cannot currently support '.PHP_OS_FAMILY),
+        };
     }
 }
