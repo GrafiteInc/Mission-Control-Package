@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v3.0.7] - 2024-01-08
+
+### Fixed
+- Issue with irratic CPU measuring
+
 ## [v3.0.6] - 2024-01-03
 
 ### Fixed
