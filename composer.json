@@ -12,7 +12,7 @@
         "php": ">=7.3|>=8.0",
         "kassner/log-parser": "^1.5",
         "nesbot/carbon": "^1.25|^2.16",
-        "tightenco/collect": "^9.6",
+        "illuminate/collections": "^10.|^11.0",
         "guzzlehttp/guzzle": "^7.5",
         "illuminate/support": "^9.0|^10.2|^11"
     },
