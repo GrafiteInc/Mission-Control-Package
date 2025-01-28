@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v3.3.0] - 2025-01-28
+
+### Added
+- Queue measuring mostly for Laravel
+
 ## [v3.2.0] - 2024-03-12
 
 ### Added
