@@ -147,11 +147,11 @@ class IssueService extends BaseService
     {
         $requestDetails = [
             'type' => 'log',
-            'data' => [
+            'data' => json_encode([
                 'tag' => $tag,
                 'message' => $message,
                 'headers' => $this->headers(),
-            ],
+            ]),
         ];
 
         return array_merge($this->baseRequest, $requestDetails);
