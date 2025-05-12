@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v3.3.3] - 2025-05-12
+
+### Fix
+- proper support for latest carbon
+
 ## [v3.3.2] - 2025-05-09
 
 ### Chore
