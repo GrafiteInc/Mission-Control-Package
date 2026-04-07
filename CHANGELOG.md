@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v3.4.0] - 2026-04-07
+
+### Feature
+- version updates
+
 ## [v3.3.3] - 2025-05-12
 
 ### Fix
