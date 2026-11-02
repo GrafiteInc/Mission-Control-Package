@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 ----
 
+## [v3.5.0] - 2026-11-02
+
+### Chore!
+- require PHP >=8.3 and update dependencies
+
+### Chore
+- version updates
+
 ## [v3.3.3] - 2025-05-12
 
 ### Fix
